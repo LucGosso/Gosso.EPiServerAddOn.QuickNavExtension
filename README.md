@@ -4,9 +4,9 @@
 
 An Episerver addon that adds up to menu items to the QuickNavigationMenu when logged in on public site, link to admin, link to ContentType, and logout.
 
-![alt text](https://raw.githubusercontent.com/LucGosso/Gosso.EPiServerAddOn.ContextMenu.OpenInFormsView/master/OpenInFormsView.png "This is how the QuickNavExtension could look")
+![alt text](https://github.com/LucGosso/Gosso.EPiServerAddOn.QuickNavExtension/blob/master/QuickNavExtension.gif?raw=true "This is how the QuickNavExtension could look")
 
-# Installation and configuration
+# Installation and configuration 
 
 There is a nuget package available under the releases tab. This can be installed via the package manager console in Visual Studio.
 
@@ -15,6 +15,7 @@ Put it in your local nuget feed, Run "install-package Gosso.EPiServerAddOn.Quick
 The files will be saved into your modulesbin folders. And not referenced, not needed. Remember to checkin the modulesbin in repository.
 
 To activate content type in menu, add this appsettings: 
+
     <appSettings>
         <add key="Gosso.QuickNav" value="admin,contenttype,logout" />
     </appSettings>
@@ -23,10 +24,10 @@ You need to have WebAdmins role to see Admin mode menu items.
 
 You may map Administrators role to WebAdmins like this in episerverframework.config:
   
-  <episerver.framework>
-   <virtualRoles addClaims="true">
+    <episerver.framework>
+    <virtualRoles addClaims="true">
     <providers>
           <add name="WebAdmins" type="EPiServer.Security.MappedRole, EPiServer.Framework" roles="Administrators" mode="Any" />
     </providers>
-   </virtualRoles>
-  </episerver.framework>
+    </virtualRoles>
+    </episerver.framework>

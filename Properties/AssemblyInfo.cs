@@ -4,8 +4,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ContextMenu Open in forms edit")]
-[assembly: AssemblyDescription("Adds a command to the page tree that opens the page in forms edit view")]
+[assembly: AssemblyTitle("QuickNavigationMenuExtension")]
+[assembly: AssemblyDescription("An Episerver addon that adds up to menu items to the QuickNavigationMenu when logged in on public site")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Gosso Systems AB")]
 [assembly: AssemblyProduct("Gosso.EPiServerAddOn.QuickNavExtension")]

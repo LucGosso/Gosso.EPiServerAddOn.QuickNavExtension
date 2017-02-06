@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<languages>
+  <language name="English" id="en">
+    <addon>
+      <quicknav>
+        <pagetype>
+          Admin PageType
+        </pagetype>
+      </quicknav>
+    </addon>
+  </language>
+  <language name="Swedish" id="sv">
+    <addon>
+      <quicknav>
+        <pagetype>
+          Admin Sidtyp
+        </pagetype>
+      </quicknav>
+    </addon>
+  </language>
+</languages>

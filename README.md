@@ -31,3 +31,15 @@ You may map Administrators role to WebAdmins like this in episerverframework.con
     </providers>
     </virtualRoles>
     </episerver.framework>
+
+**If you have lower version add assemblyBindings:**
+
+        <dependentAssembly>
+        <assemblyIdentity name="EPiServer" publicKeyToken="8fe83dea738b45b7" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-9.6.1.0" newVersion="your version" />
+        </dependentAssembly>
+
+        <dependentAssembly>
+        <assemblyIdentity name="EPiServer.Framework" publicKeyToken="8fe83dea738b45b7" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-9.6.1.0" newVersion="your version" />
+        </dependentAssembly>

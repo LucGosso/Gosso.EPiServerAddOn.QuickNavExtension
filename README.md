@@ -1,6 +1,6 @@
 # Gosso.EPiServerAddOn.QuickNavExtension
 
-[![Platform](https://img.shields.io/badge/Episerver-%207.6+-orange.svg?style=flat)](http://world.episerver.com/cms/) [![Platform](https://img.shields.io/badge/Episerver-%2010.0-green.svg?style=flat)](http://world.episerver.com/cms/) (compiled with 9.6.1, tested with 10.0.1)
+[![Platform](https://img.shields.io/badge/Episerver%20CMS-9+-green.svg?style=flat)](http://world.episerver.com/cms/) [![Platform](https://img.shields.io/badge/Episerver-%2010.0-green.svg?style=flat)](http://world.episerver.com/cms/) (compiled with 9.0, tested with 10.0.1)
 
 An Episerver addon that adds up to menu items to the QuickNavigationMenu when logged in on public site, link to admin, link to ContentType, and logout.
 
@@ -18,6 +18,12 @@ To activate content type in menu, add this appsettings:
 
     <appSettings>
         <add key="Gosso.QuickNav" value="admin,contenttype,logout" />
+    </appSettings>
+
+To only show logout item, add this appsettings: 
+
+    <appSettings>
+        <add key="Gosso.QuickNav" value="logout" />
     </appSettings>
 
 You need to have WebAdmins role to see Admin mode menu items. 

@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/LucGosso/Gosso.EPiServerAddOn.QuickNavExtension</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Adds admin and logout to quicknavigation on public site when logged in</description>
-    <releaseNotes>More information https://github.com/Lucstar/Gosso.EPiServerAddOn.QuickNavExtension </releaseNotes>
+    <releaseNotes>More information https://github.com/LucGosso/Gosso.EPiServerAddOn.QuickNavExtension </releaseNotes>
     <copyright>Free</copyright>
     <tags>EPiServerModulePackage EPiServer-UI EPiServerAddOn ThirdPartyAddon Gosso QuickNavigator</tags>
     <dependencies>

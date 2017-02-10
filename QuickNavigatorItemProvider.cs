@@ -5,6 +5,7 @@ using EPiServer.ServiceLocation;
 using EPiServer.Web;
 using EPiServer.Web.PageExtensions;
 using EPiServer.Web.Routing;
+using System;
 using System.Collections.Generic;
 using System.Web;
 
@@ -31,23 +32,60 @@ namespace Gosso.EPiServerAddOn.QuickNavExtension
         public IDictionary<string, QuickNavigatorMenuItem> GetMenuItems(ContentReference currentContent)
         {
             var appsetting = System.Web.Configuration.WebConfigurationManager.AppSettings["Gosso.QuickNav"] + "";
-            var urlBuilder = new UrlBuilder("/logout/now");
+
+            string[] menuitems = new string[] { "admin", "logout" };
+            if (!String.IsNullOrEmpty(appsetting))
+            {
+                menuitems = appsetting.Split(",".ToCharArray());
+            }
 
             var dictionary = new Dictionary<string, QuickNavigatorMenuItem>();
 
+            foreach (var item in menuitems)
+            {
+                if (!String.IsNullOrEmpty(item))
+                {
+                    dictionary.Add(item, DoMagic(item, currentContent));
+                }
+            }
+
+
+
+            return dictionary;
+        }
+
+        private QuickNavigatorMenuItem DoMagic(string item, ContentReference currentContent)
+        {
+
+            if (item == "imagevault")
+            {
+                var vaulturl = UriSupport.ResolveUrlFromUIBySettings("../ImageVault.EPiServer.UI/OnlineCenterMenu.aspx");
+                return new QuickNavigatorMenuItem("Imagevault", vaulturl, null, "true", null);
+
+            }
+
+            if (item == "find")
+            {
+                var find = UriSupport.ResolveUrlFromUIBySettings("../find/");
+                return new QuickNavigatorMenuItem("Find", find, null, "true", null);
+            }
+
+
+
             if (HttpContext.Current.User.IsInRole("WebAdmins"))
             {
-                if (string.IsNullOrEmpty(appsetting) || appsetting.Contains("admin"))
+                if (item == "admin")
                 {
+
                     var editUrl = EPiServer.Editor.PageEditing.GetEditUrl(currentContent);
                     if (editUrl != null)
                     {
                         editUrl = editUrl.Replace("#", "admin/#");
                     }
-                    dictionary.Add("admin", new QuickNavigatorMenuItem("/shell/cms/menu/admin", editUrl, null, "true", null));
+                    return new QuickNavigatorMenuItem("/shell/cms/menu/admin", editUrl, null, "true", null);
                 }
 
-                if (appsetting.Contains("contenttype"))
+                if (item == "contenttype")
                 {
                     var editUrl = EPiServer.Editor.PageEditing.GetEditUrl(currentContent);
 
@@ -59,29 +97,39 @@ namespace Gosso.EPiServerAddOn.QuickNavExtension
                         {
                             editUrl = editUrl.Replace("#", "admin/?customdefaultpage=admin/EditContentType.aspx?typeId=" + pd.ContentTypeID + "#");
                             var n = LocalizationService.Current.GetString("/addon/quicknav/pagetype", "Admin pagetype") + " " + pd.PageTypeName;
-                            dictionary.Add("EditContentType", new QuickNavigatorMenuItem(n, editUrl, null, "true", null));
+                            return new QuickNavigatorMenuItem(n, editUrl, null, "true", null);
                         }
                     }
 
                 }
             }
 
-            if (string.IsNullOrEmpty(appsetting) || appsetting.Contains("logout"))
+            if (item == "logout")
             {
+                var urlBuilder = new UrlBuilder("/logout/now");
+
                 if (this.IsPageData(currentContent))
                 {
+
                     string url = UrlResolver.Current.GetUrl(currentContent);
                     urlBuilder.QueryCollection.Add("ReturnUrl", url);
                 }
 
-                dictionary.Add("customlogout",
-                    new QuickNavigatorMenuItem("/shell/cms/menu/logout", urlBuilder.ToString(), null, "true", null)
-                );
+                return new QuickNavigatorMenuItem("/shell/cms/menu/logout", urlBuilder.ToString(), null, "true", null);
             }
 
-            return dictionary;
-        }
+            if (item.IndexOf("|") > 0)
+            {
+                var arr = item.Split('|');
+                if (arr.Length > 1)
+                {
+                    return new QuickNavigatorMenuItem(LocalizationService.Current.GetString(arr[0], arr[0]), arr[1], null, "true", null);
+                }
+            }
 
+            //oh no... 
+            return new QuickNavigatorMenuItem(LocalizationService.Current.GetString(item, item), "javascript:alert('Wrong item in Appsetting Gosso.QuickNav')", null, "true", null);
+        }
 
         private bool IsPageData(ContentReference currentContentLink)
         {

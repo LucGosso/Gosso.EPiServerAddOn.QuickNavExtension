@@ -2,13 +2,16 @@
 
 [![Platform](https://img.shields.io/badge/Episerver%20CMS-9+-green.svg?style=flat)](http://world.episerver.com/cms/) [![Platform](https://img.shields.io/badge/Episerver-%2010.0-green.svg?style=flat)](http://world.episerver.com/cms/) (compiled with 9.0, tested with 10.0.1)
 
-An Episerver addon that adds up to menu items to the QuickNavigationMenu when logged in on public site, link to admin, link to ContentType, and logout.
+An Episerver addon that adds menu items to the QuickNavigationMenu when logged in on public site, 
+All configurable links to imagevault, find, admin, admin content type, and logout. Even custom links!
 
-![alt text](https://github.com/LucGosso/Gosso.EPiServerAddOn.QuickNavExtension/blob/master/QuickNavExtension.gif?raw=true "This is how the QuickNavExtension could look")
+![alt text](https://github.com/LucGosso/Gosso.EPiServerAddOn.QuickNavExtension/blob/master/QuickNavExtension.png?raw=true "This is how the QuickNavExtension could look")
 
 # Installation and configuration 
 
-There is a nuget package available under the releases tab. This can be installed via the package manager console in Visual Studio.
+Available on nuget.episerver.com http://nuget.episerver.com/en/OtherPages/Package/?packageId=Gosso.EPiServerAddOn.QuickNavExtension
+
+Also there is a nuget package available under the releases tab. This can be installed via the package manager console in Visual Studio.
 
 Put it in your local nuget feed, Run "install-package Gosso.EPiServerAddOn.QuickNavExtension" in package manager console.
 
@@ -17,10 +20,10 @@ The files will be saved into your modulesbin folders. And not referenced, not ne
 To activate content type in menu, add this appsettings: 
 
     <appSettings>
-        <add key="Gosso.QuickNav" value="admin,contenttype,logout" />
+        <add key="Gosso.QuickNav" value="Custom link|http://devblog.gosso.se,imagevault,find,admin,contenttype,logout" />
     </appSettings>
 
-To only show logout item, add this appsettings: 
+To only show logout item, apply this appsettings: 
 
     <appSettings>
         <add key="Gosso.QuickNav" value="logout" />

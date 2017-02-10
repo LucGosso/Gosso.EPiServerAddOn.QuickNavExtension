@@ -1,6 +1,6 @@
 # Gosso.EPiServerAddOn.QuickNavExtension
 
-[![Platform](https://img.shields.io/badge/Episerver%20CMS-9+-green.svg?style=flat)](http://world.episerver.com/cms/) [![Platform](https://img.shields.io/badge/Episerver-%2010.0-green.svg?style=flat)](http://world.episerver.com/cms/) (compiled with 9.0, tested with 10.0.1)
+[![Platform](https://img.shields.io/badge/Episerver%20CMS-9+-green.svg?style=flat)](http://world.episerver.com/cms/) [![Platform](https://img.shields.io/badge/Episerver-%2010.0-green.svg?style=flat)](http://world.episerver.com/cms/) (compiled with 9.0, tested with 10.4)
 
 An Episerver addon that adds menu items to the QuickNavigationMenu when logged in on public site, 
 All configurable links to imagevault, find, admin, admin content type, and logout. Even custom links!

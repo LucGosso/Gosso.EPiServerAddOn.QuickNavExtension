@@ -17,7 +17,13 @@ Put it in your local nuget feed, Run "install-package Gosso.EPiServerAddOn.Quick
 
 The files will be saved into your modulesbin folders. And not referenced, not needed. Remember to checkin the modulesbin in repository.
 
-To activate content type in menu, add this appsettings: 
+Default menus are Admin and logout, to activate other menu items apply this appsettings: (they are sortable)
+
+    <appSettings>
+        <add key="Gosso.QuickNav" value="imagevault,find,admin,contenttype,logout" />
+    </appSettings>
+
+You can add custom menu items, Namn and url with pipe in between. Name can be resource path eg /shell/admin/logout
 
     <appSettings>
         <add key="Gosso.QuickNav" value="Custom link|http://devblog.gosso.se,imagevault,find,admin,contenttype,logout" />

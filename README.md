@@ -1,6 +1,6 @@
 # Gosso.EPiServerAddOn.QuickNavExtension
 
-[![Platform](https://img.shields.io/badge/Episerver%20CMS-9+-green.svg?style=flat)](http://world.episerver.com/cms/) [![Platform](https://img.shields.io/badge/Episerver-%2010.0-green.svg?style=flat)](http://world.episerver.com/cms/) (compiled with 9.0, tested with 10.4)
+[![Platform](https://img.shields.io/badge/Platform-.NET 4.5.2-blue.svg?style=flat)](https://msdn.microsoft.com/en-us/library/w0x726c2%28v=vs.110%29.aspx) [![Platform](https://img.shields.io/badge/Episerver%20CMS-9+-green.svg?style=flat)](http://world.episerver.com/cms/) [![Platform](https://img.shields.io/badge/Episerver-%2010.0-green.svg?style=flat)](http://world.episerver.com/cms/) (compiled with 9.0, tested with 10.4)
 
 An Episerver addon that adds menu items to the QuickNavigationMenu when logged in on public site, 
 All configurable links to imagevault, find, admin, admin content type, and logout. Even custom links!
@@ -23,7 +23,7 @@ Default menus are Admin and logout, to activate other menu items apply this apps
         <add key="Gosso.QuickNav" value="imagevault,find,admin,contenttype,logout" />
     </appSettings>
 
-You can add custom menu items, Namn and url with pipe in between. Name can be resource path eg /shell/admin/logout
+You can add custom menu items, Name and url with pipe in between. Name can be resource path eg /shell/admin/logout
 
     <appSettings>
         <add key="Gosso.QuickNav" value="Custom link|http://devblog.gosso.se,imagevault,find,admin,contenttype,logout" />

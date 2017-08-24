@@ -15,6 +15,7 @@ namespace Gosso.EPiServerAddOn.QuickNavExtension
     public class QuickNavigatorItemProvider : IQuickNavigatorItemProvider
     {
         private readonly IContentLoader contentLoader;
+        private readonly EditUrlResolver editUrlResolver;
 
         public int SortOrder
         {
@@ -24,9 +25,10 @@ namespace Gosso.EPiServerAddOn.QuickNavExtension
             }
         }
 
-        public QuickNavigatorItemProvider(IContentLoader contentLoader)
+        public QuickNavigatorItemProvider(IContentLoader contentLoader, EditUrlResolver editUrlResolver)
         {
             this.contentLoader = contentLoader;
+            this.editUrlResolver = editUrlResolver;
         }
 
         public IDictionary<string, QuickNavigatorMenuItem> GetMenuItems(ContentReference currentContent)
@@ -54,53 +56,46 @@ namespace Gosso.EPiServerAddOn.QuickNavExtension
             return dictionary;
         }
 
+
         private QuickNavigatorMenuItem DoMagic(string item, ContentReference currentContent)
         {
 
             if (item == "imagevault")
             {
-                var vaulturl = UriSupport.ResolveUrlFromUIBySettings("../ImageVault.EPiServer.UI/OnlineCenterMenu.aspx");
+                var vaulturl = GetEditUrl() + UriSupport.ResolveUrlFromUIBySettings("../ImageVault.EPiServer.UI/OnlineCenterMenu.aspx");
                 return new QuickNavigatorMenuItem("Imagevault", vaulturl, null, "true", null);
 
             }
 
             if (item == "find")
             {
-                var find = UriSupport.ResolveUrlFromUIBySettings("../find/");
+                var find = GetEditUrl() + UriSupport.ResolveUrlFromUIBySettings("../find/");
                 return new QuickNavigatorMenuItem("Find", find, null, "true", null);
             }
-
-
 
             if (HttpContext.Current.User.IsInRole("WebAdmins"))
             {
                 if (item == "admin")
                 {
 
-                    var editUrl = EPiServer.Editor.PageEditing.GetEditUrl(currentContent);
-                    if (editUrl != null)
-                    {
-                        editUrl = editUrl.Replace("#", "admin/#");
-                    }
+                    var editUrl = GetEditUrl() + EPiServer.Editor.PageEditing.GetEditUrl(currentContent);
+                    editUrl = editUrl.Replace("#", "admin/#");
+
                     return new QuickNavigatorMenuItem("/shell/cms/menu/admin", editUrl, null, "true", null);
                 }
 
                 if (item == "contenttype")
                 {
-                    var editUrl = EPiServer.Editor.PageEditing.GetEditUrl(currentContent);
+                    var editUrl = GetEditUrl() + EPiServer.Editor.PageEditing.GetEditUrl(currentContent);
 
-                    if (editUrl != null)
+                    PageData pd = null;
+
+                    if (this.contentLoader.TryGet<PageData>(currentContent, out pd))
                     {
-                        PageData pd = null;
-
-                        if (this.contentLoader.TryGet<PageData>(currentContent, out pd))
-                        {
-                            editUrl = editUrl.Replace("#", "admin/?customdefaultpage=admin/EditContentType.aspx?typeId=" + pd.ContentTypeID + "#");
-                            var n = LocalizationService.Current.GetString("/addon/quicknav/pagetype", "Admin pagetype") + " " + pd.PageTypeName;
-                            return new QuickNavigatorMenuItem(n, editUrl, null, "true", null);
-                        }
+                        editUrl = editUrl.Replace("#", "admin/?customdefaultpage=admin/EditContentType.aspx?typeId=" + pd.ContentTypeID + "#");
+                        var n = LocalizationService.Current.GetString("/addon/quicknav/pagetype", "Admin pagetype") + " " + pd.PageTypeName;
+                        return new QuickNavigatorMenuItem(n, editUrl, null, "true", null);
                     }
-
                 }
             }
 
@@ -129,6 +124,15 @@ namespace Gosso.EPiServerAddOn.QuickNavExtension
 
             //oh no... 
             return new QuickNavigatorMenuItem(LocalizationService.Current.GetString(item, item), "javascript:alert('Wrong item in Appsetting Gosso.QuickNav')", null, "true", null);
+        }
+
+        private string GetEditUrl()
+        {
+            Url editViewUrl = editUrlResolver.GetEditViewUrl(new EditUrlArguments()
+            {
+                ForceEditHost = true
+            });
+            return editViewUrl?.Uri.ToString().Replace(editViewUrl.Path, "");//Just want the HOST to *EDIT*
         }
 
         private bool IsPageData(ContentReference currentContentLink)

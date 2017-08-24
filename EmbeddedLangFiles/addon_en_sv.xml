@@ -4,7 +4,7 @@
     <addon>
       <quicknav>
         <pagetype>
-          Admin PageType
+          PageType
         </pagetype>
       </quicknav>
     </addon>
@@ -13,7 +13,7 @@
     <addon>
       <quicknav>
         <pagetype>
-          Admin Sidtyp
+          Sidtyp
         </pagetype>
       </quicknav>
     </addon>

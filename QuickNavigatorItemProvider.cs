@@ -47,7 +47,9 @@ namespace Gosso.EPiServerAddOn.QuickNavExtension
             {
                 if (!String.IsNullOrEmpty(item))
                 {
-                    dictionary.Add(item, DoMagic(item, currentContent));
+                    var menu = DoMagic(item, currentContent);
+                    if (menu!=null)
+                    dictionary.Add(item, menu);
                 }
             }
 
@@ -73,31 +75,35 @@ namespace Gosso.EPiServerAddOn.QuickNavExtension
                 return new QuickNavigatorMenuItem("Find", find, null, "true", null);
             }
 
-            if (HttpContext.Current.User.IsInRole("WebAdmins"))
+            
+            if (item == "admin")
             {
-                if (item == "admin")
+                if (!HttpContext.Current.User.IsInRole("WebAdmins"))
+                    return null;
+
+                var editUrl = GetEditUrl() + EPiServer.Editor.PageEditing.GetEditUrl(currentContent);
+                editUrl = editUrl.Replace("#", "admin/#");
+
+                return new QuickNavigatorMenuItem("/shell/cms/menu/admin", editUrl, null, "true", null);
+            }
+
+            if (item == "contenttype")
+            {
+                if (!HttpContext.Current.User.IsInRole("WebAdmins"))
+                    return null;
+
+                var editUrl = GetEditUrl() + EPiServer.Editor.PageEditing.GetEditUrl(currentContent);
+
+                PageData pd = null;
+
+                if (this.contentLoader.TryGet<PageData>(currentContent, out pd))
                 {
-
-                    var editUrl = GetEditUrl() + EPiServer.Editor.PageEditing.GetEditUrl(currentContent);
-                    editUrl = editUrl.Replace("#", "admin/#");
-
-                    return new QuickNavigatorMenuItem("/shell/cms/menu/admin", editUrl, null, "true", null);
-                }
-
-                if (item == "contenttype")
-                {
-                    var editUrl = GetEditUrl() + EPiServer.Editor.PageEditing.GetEditUrl(currentContent);
-
-                    PageData pd = null;
-
-                    if (this.contentLoader.TryGet<PageData>(currentContent, out pd))
-                    {
-                        editUrl = editUrl.Replace("#", "admin/?customdefaultpage=admin/EditContentType.aspx?typeId=" + pd.ContentTypeID + "#");
-                        var n = LocalizationService.Current.GetString("/addon/quicknav/pagetype", "Admin pagetype") + " " + pd.PageTypeName;
-                        return new QuickNavigatorMenuItem(n, editUrl, null, "true", null);
-                    }
+                    editUrl = editUrl.Replace("#", "admin/?customdefaultpage=admin/EditContentType.aspx?typeId=" + pd.ContentTypeID + "#");
+                    var n = LocalizationService.Current.GetString("/addon/quicknav/pagetype", "Admin pagetype") + " " + pd.PageTypeName;
+                    return new QuickNavigatorMenuItem(n, editUrl, null, "true", null);
                 }
             }
+            
 
             if (item == "logout")
             {

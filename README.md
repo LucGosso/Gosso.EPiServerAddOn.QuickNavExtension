@@ -1,4 +1,5 @@
 # Gosso.EPiServerAddOn.QuickNavExtension
+**version 2.0 (2017-11-22)**
 
 [![Platform](https://img.shields.io/badge/Platform-.NET%204.5.2-blue.svg?style=flat)](https://msdn.microsoft.com/en-us/library/w0x726c2%28v=vs.110%29.aspx) [![Platform](https://img.shields.io/badge/Episerver%20CMS-9+-green.svg?style=flat)](http://world.episerver.com/cms/) [![Platform](https://img.shields.io/badge/Episerver-%2010.0-green.svg?style=flat)](http://world.episerver.com/cms/) (compiled with 9.0, tested with 10.4, Use Version 1.3) 
 

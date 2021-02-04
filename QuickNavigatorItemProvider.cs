@@ -64,7 +64,7 @@ namespace Gosso.EPiServerAddOn.QuickNavExtension
 
             if (item == "imagevault")
             {
-                var vaulturl = GetEditUrl() + UriSupport.ResolveUrlFromUIBySettings("../ImageVault.EPiServer.UI/OnlineCenterMenu.aspx");
+                var vaulturl = GetEditUrl() + UriSupport.ResolveUrlFromUIBySettings("../ImageVault.EPiServer.UI/ImageVaultUi");
                 return new QuickNavigatorMenuItem("Imagevault", vaulturl, null, "true", null);
 
             }
@@ -102,6 +102,7 @@ namespace Gosso.EPiServerAddOn.QuickNavExtension
                     var n = LocalizationService.Current.GetString("/addon/quicknav/pagetype", "Admin pagetype") + " " + pd.PageTypeName;
                     return new QuickNavigatorMenuItem(n, editUrl, null, "true", null);
                 }
+                return null;
             }
             
 
@@ -129,7 +130,7 @@ namespace Gosso.EPiServerAddOn.QuickNavExtension
             }
 
             //oh no... 
-            return new QuickNavigatorMenuItem(LocalizationService.Current.GetString(item, item), "javascript:alert('Wrong item in Appsetting Gosso.QuickNav')", null, "true", null);
+            return new QuickNavigatorMenuItem(LocalizationService.Current.GetString(item, item), "javascript:alert('Wrong config in Appsetting Gosso.QuickNav')", null, "true", null);
         }
 
         private string GetEditUrl()

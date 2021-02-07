@@ -62,21 +62,37 @@ namespace Gosso.EPiServerAddOn.QuickNavExtension
         private QuickNavigatorMenuItem DoMagic(string item, ContentReference currentContent)
         {
 
-            if (item == "imagevault")
+            string keyWord = item;
+            string[] arr = new string[0];
+            if (item.IndexOf("|") > 0)
+            {
+                arr = item.Split('|');
+                if (arr.Length > 2)
+                {
+                    if (!string.IsNullOrEmpty(arr[2]))
+                    {
+                        if (!HttpContext.Current.User.IsInRole(arr[2]))
+                            return null;
+                    }
+                }
+                keyWord = arr[0];
+            }
+
+            if (keyWord == "imagevault")
             {
                 var vaulturl = GetEditUrl() + UriSupport.ResolveUrlFromUIBySettings("../ImageVault.EPiServer.UI/ImageVaultUi");
                 return new QuickNavigatorMenuItem("Imagevault", vaulturl, null, "true", null);
 
             }
 
-            if (item == "find")
+            if (keyWord == "find")
             {
                 var find = GetEditUrl() + UriSupport.ResolveUrlFromUIBySettings("../find/");
                 return new QuickNavigatorMenuItem("Find", find, null, "true", null);
             }
 
             
-            if (item == "admin")
+            if (keyWord == "admin")
             {
                 if (!HttpContext.Current.User.IsInRole("WebAdmins"))
                     return null;
@@ -87,7 +103,7 @@ namespace Gosso.EPiServerAddOn.QuickNavExtension
                 return new QuickNavigatorMenuItem("/shell/cms/menu/admin", editUrl, null, "true", null);
             }
 
-            if (item == "contenttype")
+            if (keyWord == "contenttype")
             {
                 if (!HttpContext.Current.User.IsInRole("WebAdmins"))
                     return null;
@@ -103,10 +119,9 @@ namespace Gosso.EPiServerAddOn.QuickNavExtension
                     return new QuickNavigatorMenuItem(n, editUrl, null, "true", null);
                 }
                 return null;
-            }
-            
+            }            
 
-            if (item == "logout")
+            if (keyWord == "logout")
             {
                 var urlBuilder = new UrlBuilder("/logout/now");
 
@@ -120,14 +135,10 @@ namespace Gosso.EPiServerAddOn.QuickNavExtension
                 return new QuickNavigatorMenuItem("/shell/cms/menu/logout", urlBuilder.ToString(), null, "true", null);
             }
 
-            if (item.IndexOf("|") > 0)
+            if (arr.Length > 1)
             {
-                var arr = item.Split('|');
-                if (arr.Length > 1)
-                {
-                    return new QuickNavigatorMenuItem(LocalizationService.Current.GetString(arr[0], arr[0]), arr[1], null, "true", null);
-                }
-            }
+                return new QuickNavigatorMenuItem(LocalizationService.Current.GetString(arr[0], arr[0]), arr[1], null, "true", null);
+            }            
 
             //oh no... 
             return new QuickNavigatorMenuItem(LocalizationService.Current.GetString(item, item), "javascript:alert('Wrong config in Appsetting Gosso.QuickNav')", null, "true", null);

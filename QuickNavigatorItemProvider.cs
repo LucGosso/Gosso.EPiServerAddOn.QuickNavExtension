@@ -98,7 +98,7 @@ namespace Gosso.EPiServerAddOn.QuickNavExtension
                     return null;
 
                 var editUrl = GetEditUrl() + EPiServer.Editor.PageEditing.GetEditUrl(currentContent);
-                editUrl = editUrl.Replace("#", "admin/#");
+                editUrl = editUrl.Replace("#", "admin/default.aspx#");
 
                 return new QuickNavigatorMenuItem("/shell/cms/menu/admin", editUrl, null, "true", null);
             }
@@ -114,7 +114,7 @@ namespace Gosso.EPiServerAddOn.QuickNavExtension
 
                 if (this.contentLoader.TryGet<PageData>(currentContent, out pd))
                 {
-                    editUrl = editUrl.Replace("#", "admin/?customdefaultpage=admin/EditContentType.aspx?typeId=" + pd.ContentTypeID + "#");
+                    editUrl = editUrl.Replace("#", "admin/default.aspx?customdefaultpage=admin/EditContentType.aspx?typeId=" + pd.ContentTypeID + "#");
                     var n = LocalizationService.Current.GetString("/addon/quicknav/pagetype", "Admin pagetype") + " " + pd.PageTypeName;
                     return new QuickNavigatorMenuItem(n, editUrl, null, "true", null);
                 }
